@@ -4,6 +4,39 @@ Convert YAML configurations into DAG (Directed Acyclic Graph) visualization usin
 
 [中文文档](#中文文档)
 
+## 📊 Example Output
+
+```mermaid
+flowchart TB
+  C["C"]
+  E{"E"}
+  F{"F"}
+  G["G"]
+  J["J"]
+  H["H"]
+
+  C --> E
+  E -->|true| F
+  E -->|false| G
+  F -->|true| J
+  F -->|false| K
+
+  subgraph K[" "]
+    direction TB
+    X{"X"}
+    Y["Y"]
+    Z["Z"]
+    X -->|true| Y
+    X -->|false| Z
+  end
+
+  J --> H
+  K --> H
+  G --> H
+```
+
+▶️ [Edit this diagram in Mermaid Editor](https://devref.cc/tools/mermaid#data/eJxNjr0OgzAMhPc-xck7r9ChKASFtQNgdaD8FCQEKIA6QN-9SYgQ2-fz2XdNP37LttALno8bEDKF9DIgNhL0MxBtFDmQTNKtFJNyEDPFBuwZguAOYe8s7Yte6x3ROTdFPxtB2n8Xgzpnb0jss3l9f3QxtUiY4IKAqtN1uXTjcNQE0o1SVwvImDJvy5lyj-klJ7soPik3Uj1UNk-58rGh5CR50B_VekWE)
+
 ## ✨ Features
 
 - 🔄 **Live Rendering** - Instantly generate DAG diagrams from YAML configuration
@@ -31,7 +64,6 @@ Visit http://localhost:3000 to get started.
 
 ```yaml
 dag_id: "my_dag"
-desc: "My workflow"
 nodes:
   - node_id: "A"
 
@@ -42,6 +74,17 @@ nodes:
     deps: ["B"]
 ```
 
+Generates:
+
+```mermaid
+flowchart TB
+  A["A"]
+  B["B"]
+  C["C"]
+  A --> B
+  B --> C
+```
+
 ### Conditional Branching
 
 Use `true_node` and `false_node` to define conditional branches:
@@ -49,9 +92,12 @@ Use `true_node` and `false_node` to define conditional branches:
 ```yaml
 dag_id: "conditional_dag"
 nodes:
+  - node_id: "Start"
+
   - node_id: "Check"
     true_node: "Process"
     false_node: "HandleError"
+    deps: ["Start"]
 
   - node_id: "Process"
     deps: ["Check"]
@@ -61,6 +107,23 @@ nodes:
 
   - node_id: "End"
     deps: ["Process", "HandleError"]
+```
+
+Generates:
+
+```mermaid
+flowchart TB
+  Start["Start"]
+  Check{"Check"}
+  Process["Process"]
+  HandleError["HandleError"]
+  End["End"]
+
+  Start --> Check
+  Check -->|true| Process
+  Check -->|false| HandleError
+  Process --> End
+  HandleError --> End
 ```
 
 ### Sub DAG Configuration
@@ -105,6 +168,39 @@ MIT
 
 将 YAML 配置转换为 DAG（有向无环图）可视化，使用 Mermaid 渲染。
 
+## 📊 示例输出
+
+```mermaid
+flowchart TB
+  C["C"]
+  E{"E"}
+  F{"F"}
+  G["G"]
+  J["J"]
+  H["H"]
+
+  C --> E
+  E -->|true| F
+  E -->|false| G
+  F -->|true| J
+  F -->|false| K
+
+  subgraph K[" "]
+    direction TB
+    X{"X"}
+    Y["Y"]
+    Z["Z"]
+    X -->|true| Y
+    X -->|false| Z
+  end
+
+  J --> H
+  K --> H
+  G --> H
+```
+
+▶️ [在 Mermaid 编辑器中编辑此图](https://devref.cc/tools/mermaid#data/eJxNjr0OgzAMhPc-xck7r9ChKASFtQNgdaD8FCQEKIA6QN-9SYgQ2-fz2XdNP37LttALno8bEDKF9DIgNhL0MxBtFDmQTNKtFJNyEDPFBuwZguAOYe8s7Yte6x3ROTdFPxtB2n8Xgzpnb0jss3l9f3QxtUiY4IKAqtN1uXTjcNQE0o1SVwvImDJvy5lyj-klJ7soPik3Uj1UNk-58rGh5CR50B_VekWE)
+
 ## ✨ 功能特性
 
 - 🔄 **实时渲染** - 输入 YAML 配置即时生成 DAG 图
@@ -132,7 +228,6 @@ npm run dev
 
 ```yaml
 dag_id: "my_dag"
-desc: "My workflow"
 nodes:
   - node_id: "A"
 
@@ -143,6 +238,17 @@ nodes:
     deps: ["B"]
 ```
 
+生成：
+
+```mermaid
+flowchart TB
+  A["A"]
+  B["B"]
+  C["C"]
+  A --> B
+  B --> C
+```
+
 ### 条件分支
 
 使用 `true_node` 和 `false_node` 定义条件分支：
@@ -150,9 +256,12 @@ nodes:
 ```yaml
 dag_id: "conditional_dag"
 nodes:
+  - node_id: "Start"
+
   - node_id: "Check"
     true_node: "Process"
     false_node: "HandleError"
+    deps: ["Start"]
 
   - node_id: "Process"
     deps: ["Check"]
@@ -162,6 +271,23 @@ nodes:
 
   - node_id: "End"
     deps: ["Process", "HandleError"]
+```
+
+生成：
+
+```mermaid
+flowchart TB
+  Start["Start"]
+  Check{"Check"}
+  Process["Process"]
+  HandleError["HandleError"]
+  End["End"]
+
+  Start --> Check
+  Check -->|true| Process
+  Check -->|false| HandleError
+  Process --> End
+  HandleError --> End
 ```
 
 ### 子 DAG 配置

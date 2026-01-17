@@ -1,8 +1,6 @@
 // Example YAML configurations
 export const EXAMPLE_YAML = `# Main DAG configuration
 dag_id: "main_dag"
-desc: "Main workflow with conditional branching"
-thread_pool: "cpu"
 nodes:
   - node_id: "C"
 
@@ -32,8 +30,6 @@ nodes:
 ---
 # Sub DAG configuration
 dag_id: "sub_dag"
-desc: "Sub dag example"
-thread_pool: "cpu"
 nodes:
   - node_id: "X"
     true_node: "Y"
@@ -47,7 +43,6 @@ nodes:
 `;
 
 export const SIMPLE_EXAMPLE = `dag_id: "simple_dag"
-desc: "Simple linear workflow"
 nodes:
   - node_id: "A"
 
@@ -59,7 +54,6 @@ nodes:
 `;
 
 export const CONDITIONAL_EXAMPLE = `dag_id: "conditional_dag"
-desc: "Workflow with conditional branching"
 nodes:
   - node_id: "Start"
 

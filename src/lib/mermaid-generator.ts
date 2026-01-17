@@ -96,7 +96,7 @@ function generateNodeDefinition(node: DagNode, indent: string): string {
 
   if (isConditionalNode(node)) {
     // Conditional node uses diamond shape
-    return `${indent}${nodeId}{{"${nodeId}"}}`;
+    return `${indent}${nodeId}{"${nodeId}"}`;
   } else {
     // Regular node uses rounded rectangle
     return `${indent}${nodeId}["${nodeId}"]`;
